@@ -26,18 +26,22 @@ function hidePopUp() {
 }
 
 function handlePopUpClick(event) {
-    if(event.target === popUp){
-       popUp.classList.remove('visible'); 
+    if (event.target === popUp) {
+        popUp.classList.remove('visible');
     }
 }
 
-// Обработчики для кнопок открытия и закрытия
-openButton.addEventListener('click', showPopUp);
-openButton.addEventListener('touchstart', showPopUp);
+function addTouchEventHandlers(element, handler) {
+    element.addEventListener('click', handler);
+    element.addEventListener('touchend', (event) => {
+        event.preventDefault();  // Предотвращает двойное срабатывание на некоторых устройствах
+        handler(event);
+    });
+}
 
-closeButton.addEventListener('click', hidePopUp);
-closeButton.addEventListener('touchstart', hidePopUp);
+// Обработчики для кнопок открытия и закрытия
+addTouchEventHandlers(openButton, showPopUp);
+addTouchEventHandlers(closeButton, hidePopUp);
 
 // Обработчик для клика по всплывающему окну
-popUp.addEventListener('click', handlePopUpClick);
-popUp.addEventListener('touchstart', handlePopUpClick);
+addTouchEventHandlers(popUp, handlePopUpClick);
